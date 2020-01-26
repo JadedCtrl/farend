@@ -33,7 +33,6 @@ USAGE
 -l $LIMIT      | The amount of days you'd like to print events in advance (7)
 -d $DIVIDER    | Set the divider string under headers (default is 40 "-" chars)
 -T $TODAY_MSG  | Set the header title for today's events ("TODAY")
--P $PAST_MSG   | Set the header title for events already past ("LONG GONE")
 -L $LATER_MSG  | Set the header title to non-today upcoming events  ("NEXT")
 -q             | Print upcoming events without dividers or headers ($*_MSG)
 -h             | Print the help message

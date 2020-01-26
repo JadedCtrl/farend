@@ -194,7 +194,7 @@ function is_balanced_date {
 	if test "$month" -gt 12; then
 		return 1
 	elif test "$day" -gt "$month_max" ; then
-    		return 1
+		return 1
 	else
 		return 0
 	fi
@@ -204,7 +204,8 @@ function is_balanced_date {
 function carry_date {
 	local date="$1"
 
-	while test "$(is_balanced_date "$date")" -eq 1; do
+	is_balanced_date "$date"
+	while test "$?" -eq 1; do
 		date="$(carry_months "$(carry_days "$date")")"
 	done
 	echo "$date"
@@ -218,9 +219,10 @@ function carry_days {
 	local days="$(date_day "$date")"
 
 	if test "$days" -gt "$(month_days "$month")"; then
-		local new_days="$(subtract "$days"
-		                           "$(month_days "$month")" | digits 2)"
+		local new_days="$(subtract "$days" "$(month_days "$month")")"
 		local new_month="$(add "$month" "1")"
+		new_days="$(echo "$new_days" | digits 2)"
+		new_month="$(echo "$new_month" | digits 2)"
 		echo "${year}-${new_month}-${new_days}"
 	else
 		echo "$date"
@@ -321,6 +323,13 @@ function generate_report {
 # --------------------------------------
 # INVOCATION
 
+BIN="$(echo "$0" | sed 's%.*/%%')"
+function print_help {
+	echo "usage: $BIN [-hq] [-l \$LIMIT] [-L | -D \$MSG] [\$TODO_PATH]"
+	exit 2
+}
+
+
 # ------------------
 # OPTIONS
 
@@ -332,15 +341,14 @@ LATER_MSG="NEXT EPISODE..."
 PAST_MSG="FROM THE GRAVE"
 QUIET_MODE=1
 
-while getopts 'l:D:T:L:P:qh' c; do
+while getopts 'l:D:T:L:qh' c; do
 	case "$c" in
 			l) LIMIT="$OPTARG" ;;
 			D) DIVIDER="$OPTARG" ;;
 			T) TODAY_MSG="$OPTARG" ;;
 			L) LATER_MSG="$OPTARG" ;;
-			P) PAST_MSG="$OPTARG" ;;
 			q) QUIET_MODE=0 ;;
-			h) echo "$HELP"; exit 2 ;;
+			h) print_help ;;
 	esac
 done
 shift "$(dec "$OPTIND" 1)"
