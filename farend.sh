@@ -34,14 +34,6 @@ function subtract {
 	| bc 
 }
 
-# Multiply two numbers
-function multiply {
-	local a="$1"; local b="$2"
-	echo "$a * $b" \
-	| bc 
-}
-
-
 # Increment a number by one
 function inc {
 	local a="$1"
@@ -84,11 +76,6 @@ function today {
 	date +"%Y-%m-%d"
 }
 
-# Return current time, HH:MM
-function now {
-	date +"%H:%M"
-}
-
 
 # Return the day of a given date
 function date_day {
@@ -109,48 +96,6 @@ function date_year {
 	local date="$1"
 	echo "$date" \
 	| awk -F "-" '{print $1}'
-}
-
-
-# Return the hour of a given time
-function time_hour {
-	local time="$1"
-	echo "$time" \
-	| awk -F ":" '{print $1}'
-}
-
-# Return the minute of a given time
-function time_minute {
-	local time="$1"
-	echo "$time" \
-	| awk -F ":" '{print $2}'
-}
-
-
-# Return current year
-function this_year {
-	date_year "$(today)"
-}
-
-# Return current month
-function this_month {
-	date_month "$(today)"
-}
-
-# Return current day
-function this_day {
-	date_day "$(today)"
-}
-
-
-# Return current hour
-function this_hour {
-	time_hour "$(now)"
-}
-
-# Return current minute
-function this_minute  {
-	time_minute "$(now)"
 }
 
 
@@ -257,11 +202,12 @@ function preprocess_todo {
 
 # Replace piped todo's vague dates with current dates
 function demystify_todo_times {
-	sed 's%^\*-%'"$(this_year)"'-%g' \
-	| sed 's%-\*-%-'"$(this_month)"'-%g' \
-	| sed 's%-\*%-'"$(this_day)"'%g' \
-	| sed 's%\*:%'"$(this_hour)"':%g' \
-	| sed 's%:\*%:'"$(this_minute)"'%g'
+	local year="$(date_year "$(today)")"
+	local month="$(date_month "$(today)")"
+	local day="$(date_day "$(today)")"
+	sed 's%^\*-%'"$year"'-%g' \
+	| sed 's%-\*-%-'"$month"'-%g' \
+	| sed 's%-\*%-'"$day"'%g'
 }
 
 # Filter out comments and blank lines from piped todo
@@ -290,7 +236,12 @@ function upcoming_todo_lines {
 		cat "$todo_file" \
 		| preprocess_todo \
 		| date_todo_lines "$(add_days "$start_date" "$i")"
-		if test "$?" -eq 0 -a "$i" -ne "$(dec "$limit")"; then echo "---"; fi
+
+		if test "$?" -eq 0 \
+			-a "$i" -ne "$(dec "$limit")" \
+			-a "$QUIET_MODE" -ne 0
+		then	echo "---"; fi
+
 		i="$(inc "$i")"
 	done
 }
