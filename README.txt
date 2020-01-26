@@ -43,6 +43,16 @@ $ farend -l 100 -q /tmp/todo
 
 
 ————————————————————————————————————————
+UTILS
+————————————————————————————————————————
+The "utils/" folder contains some stuff I personally find useful that's related
+to the project.
+
+Right now, it just contains `ccal`, a frontend to `cal` that portably
+highlights the current day (since it's not builtin in many versions).
+
+
+————————————————————————————————————————
 BORING STUFF
 ————————————————————————————————————————
 License is GPLv3-- check COPYING.txt.
