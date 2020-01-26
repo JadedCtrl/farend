@@ -290,6 +290,7 @@ function upcoming_todo_lines {
 		cat "$todo_file" \
 		| preprocess_todo \
 		| date_todo_lines "$(add_days "$start_date" "$i")"
+		if test "$?" -eq 0 -a "$i" -ne "$(dec "$limit")"; then echo "---"; fi
 		i="$(inc "$i")"
 	done
 }
