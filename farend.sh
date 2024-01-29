@@ -2,7 +2,7 @@
 # --------------------------------------
 # name: farend
 # desc: a simple todo system in shell
-# main: jaidyn ann <jadedctrl@teknik.io>
+# main: jaidyn ann <jadedctrl@posteo.at>
 # --------------------------------------
 
 # Take in everything in stdin, then print

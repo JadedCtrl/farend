@@ -56,5 +56,5 @@ highlights the current day (since it's not builtin in many versions).
 BORING STUFF
 ————————————————————————————————————————
 License is GPLv3-- check COPYING.txt.
-Author is Jaidyn Ann <jadedctrl@teknik.io>
-Sauce is at https://git.xwx.moe/farend.git
+Author is Jaidyn Ann <jadedctrl@posteo.at>
+Sauce is at https://hak.xwx.moe/jadedctrl/farend

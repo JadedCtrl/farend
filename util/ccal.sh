@@ -2,7 +2,7 @@
 # --------------------------------------
 # name: ccal
 # desc: portable colourized `cal`
-# main: jaidyn ann <jadedctrl@teknik.io>
+# main: jaidyn ann <jadedctrl@posteo.at>
 # --------------------------------------
 
 # On some systems, the `cal` command can't highlight the current day.
